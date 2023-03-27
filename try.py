@@ -1,10 +1,6 @@
 # import serial
-import time
 from tqdm import tqdm
-import subprocess
 from subprocess import PIPE
-import threading
-import sys
 import os
 from datetime import datetime
 import _auto
@@ -32,19 +28,19 @@ def hom_interference_experiment():
     odl_times = [x / 10 for x in range(800, 1201)]
 
     # 実行開始時間
-    now = datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
+    experiment_time = datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
 
     # 実験ディレクトリを作成
     current_dir = os.getcwd()
-    dir_name = f'Results_{now}'
+    dir_name = f'Results_{experiment_time}'
     dir_path = os.path.join(current_dir, dir_name)
     os.mkdir(dir_path)
 
     # ODLの実行
-    pbar = tqdm(odl_times, desc='Progress in experiment', position=1)
+    pbar = tqdm(odl_times, position=1)
     for odl_time in pbar:
         # 進捗表示
-        pbar.set_description(f'Progress in experiment (delay {odl_time})')
+        pbar.set_description(f'Progress in Experiment (delay {odl_time}[ps])')
 
         # コマンドを送信
         command = '_ABS_ {0}$\r\n'.format(odl_time)

@@ -74,7 +74,7 @@ def take_screenshot(window, file_path):
 
 def run_TC(path='AAA', delay=80.0):
     # 進捗表示
-    tqdm.write(f'Preparing {delay}[ps]...')
+    tqdm.write(f'Preparing for {delay}[ps]...')
 
     # Time Controller.exe の表示設定
     hwnd = set_window(-7, 0, 1600, 900)
@@ -95,7 +95,7 @@ def run_TC(path='AAA', delay=80.0):
     acquisition_time = int(get_acquisition_time(hwnd))
 
     # 実行
-    tqdm.write(f'Running {delay}[ps]...')
+    tqdm.write(f'Running for {delay}[ps]...')
     run_acquisition(hwnd)
     margin_time = 5
     pbar_run = tqdm(range(acquisition_time+margin_time), leave=False, position=0)
@@ -104,10 +104,14 @@ def run_TC(path='AAA', delay=80.0):
         time.sleep(1)
 
     # スクリーンショット
-    screenshot_name = f"{datetime.now():%Y-%m-%dT%H_%M_%S}.png"
+    pre_text = 'Results_Histogram_png'
+    delay_text = str(delay).replace(".", "_")
+    save_time_text =  datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
+    screenshot_name = f"{pre_text}_{delay_text}ps_{save_time_text}.png"
     screenshot_path = os.path.join(path, screenshot_name)
+
     take_screenshot(hwnd, screenshot_path)
-    tqdm.write(f'Saved {screenshot_name}.')
+    tqdm.write(f'Saved {screenshot_name}.\n')
 
 
 if __name__ == "__main__":
