@@ -16,7 +16,11 @@ if __name__ == "__main__":
     # 未処理のフォルダーを検索
     folders = [f for f in os.listdir(current_dir) if f.startswith("Results_")]
 
-    for folder in tqdm(folders, desc='Progress in purse'):
+    if not folders:
+        print("未処理のフォルダーがありません")
+        exit()
+
+    for folder in tqdm(folders, desc='Progress in parse', position=1):
         # 処理に使うパスを管理
         folder_path = os.path.join(current_dir, folder)
         origin_folder_path = os.path.join(folder_path, "origin")
