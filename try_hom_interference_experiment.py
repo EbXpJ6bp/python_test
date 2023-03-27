@@ -7,6 +7,7 @@ import threading
 import sys
 import os
 from datetime import datetime
+import _auto
 
 
 
@@ -21,11 +22,11 @@ def hom_interference_experiment():
     BIT_RATE = 9600
 
     # シリアルポートを開く
-    try:
-       ser = serial.Serial(COM, BIT_RATE)
-    except:
-       print('Error in serial')
-       exit(1)
+    # try:
+    #    ser = serial.Serial(COM, BIT_RATE)
+    # except:
+    #    print('Error in serial')
+    #    exit(1)
 
     # ODLの時間軸を作成
     odl_times = [x / 10 for x in range(800, 1201)]
@@ -40,49 +41,31 @@ def hom_interference_experiment():
     os.mkdir(dir_path)
 
     # ODLの実行
-    for odl_time in tqdm(odl_times, desc='Progress in experiment'):
+    pbar = tqdm(odl_times, desc='Progress in experiment', position=1)
+    for odl_time in pbar:
         # 進捗表示
-        tqdm.write(f"Time in ODL: {odl_time}[ps]")
+        pbar.set_description(f'Progress in experiment (delay {odl_time})')
 
         # コマンドを送信
         command = '_ABS_ {0}$\r\n'.format(odl_time)
 
-        print(command)
+        # print(command)
 
-        exit()
+        # ser.write(b'{0}'.format(command))
 
-        ser.write(b'{0}'.format(command))
+        # # OKまたはNGが返ってくるまで待機
+        # while True:
+        #     response = ser.readline().decode('utf-8').strip()
+        #     if response == 'OK':
+        #         break
+        #     elif response == 'NG':
+        #         print(f'{time.time()}: Error response received: {response}')
+        #         exit()
 
-        # OKまたはNGが返ってくるまで待機
-        while True:
-            response = ser.readline().decode('utf-8').strip()
-            if response == 'OK':
-                break
-            elif response == 'NG':
-                print(f'{time.time()}: Error response received: {response}')
-                exit()
+        # Time Controllerの制御
+        _auto.run_TC(dir_path, odl_time)
 
-        # サブプロセスの実行
-        p = subprocess.Popen(["python", 'a.py'], stdin=sys.stdin,
-                             stdout=PIPE, stderr=PIPE, universal_newlines=True)
 
-        # 並列化によるstdout stderr取得
-        th_stdout = threading.Thread(
-            target=read_stream, args=(p.stdout, sys.stdout))
-        th_stderr = threading.Thread(
-            target=read_stream, args=(p.stderr, sys.stderr))
-        th_stdout.start()
-        th_stderr.start()
-
-        # 実行が終了するまで待つ
-        p.wait()
-        th_stdout.join()
-        th_stdout.join()
-
-        # # 実行結果を表示する
-        # tqdm.write(f"{result.stdout}")
-        # 進捗表示
-        tqdm.write("========================")
 
     # シリアルポートを閉じる
     # ser.close()

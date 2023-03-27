@@ -26,7 +26,7 @@ def hom_interference_experiment_result():
     # print(my_list)
 
     # .csvファイルを1つずつ処理
-    for csv_file in tqdm(csv_files , desc='Progress in extract'):
+    for csv_file in tqdm(csv_files, desc='Progress in extract'):
 
         # .csvファイルを読み込み、indexをTIA_timeになるように調整
         df = pd.read_csv(os.path.join(folder_path, csv_file), index_col=0)
@@ -52,7 +52,7 @@ def hom_interference_experiment_result():
     result_df = pd.concat(csv_dict_s.values(), axis=1)
 
     # 結果を保存
-    result_df.to_csv(os.path.join(current_dir, f"pursed_{datetime.now():%Y-%m-%dT%H_%M_%S}.csv"))
+    result_df.to_csv(os.path.join(current_dir, f"extracted_{datetime.now():%Y-%m-%dT%H_%M_%S}.csv"))
 
 
 if __name__ == "__main__":
