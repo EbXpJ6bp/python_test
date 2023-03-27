@@ -81,7 +81,6 @@ def run_TC(path='AAA', delay=80.0):
 
     # Time Controller.exe の表示設定
     hwnd = get_window()
-    time.sleep(1)
     set_window(hwnd)
 
     # ファイルパスの設定
