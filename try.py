@@ -28,11 +28,11 @@ def hom_interference_experiment():
     odl_times = [x / 10 for x in range(800, 1201)]
 
     # 実行開始時間
-    experiment_time = datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
+    experiment_start_time = datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
 
     # 実験ディレクトリを作成
     current_dir = os.getcwd()
-    dir_name = f'Results_{experiment_time}'
+    dir_name = f'Results_{experiment_start_time}'
     dir_path = os.path.join(current_dir, dir_name)
     os.mkdir(dir_path)
 
@@ -62,9 +62,14 @@ def hom_interference_experiment():
         _auto.run_TC(dir_path, odl_time)
 
 
-
     # シリアルポートを閉じる
     # ser.close()
+
+
+    experiment_end_time = datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
+    print("おわったあ！！")
+    print(f"終了時刻: {experiment_end_time}")
+
 
 
 if __name__ == "__main__":

@@ -8,9 +8,9 @@ import os
 
 
 
-# このプログラムはウィンドウの設定、パスの更新、ファイル名の更新、Histogramの実行、スクリーンショットのみを自動化します。
+# このプログラムはウィンドウの設定、パスの更新、ファイル名の更新、Histogramの実行、スクリーンショットのみを力技で自動化します。
 # それ以外の設定は前もって手動で設定してください。
-# 全部クラスでまとめればいいのにね
+# クラスでまとめればいいのにね
 
 
 def clear_text(x, y):
@@ -29,16 +29,19 @@ def copy_text(x, y):
     pyautogui.hotkey('ctrl', 'c')
     return pyperclip.paste()
 
-def set_window(x, y, width, heigh):
+def get_window():
     time.sleep(1)
     TC_win = win32gui.FindWindow(None, 'Time Controller')
     time.sleep(1)
     if not TC_win:
         print(f'{time.time()}: Not fund "Time Controller.exe"')
         exit()
-    win32gui.SetForegroundWindow(TC_win)
-    win32gui.MoveWindow(TC_win, x, y, width, heigh, True)
     return TC_win
+
+def set_window(window):
+    X, Y, WIDTH, HEIGH = -7, 0, 1600, 900
+    win32gui.SetForegroundWindow(window)
+    win32gui.MoveWindow(window, X, Y, WIDTH, HEIGH, True)
 
 def update_file_path(window, string_):
     X, Y = 170, 693
@@ -77,8 +80,9 @@ def run_TC(path='AAA', delay=80.0):
     tqdm.write(f'Preparing for {delay}[ps]...')
 
     # Time Controller.exe の表示設定
-    hwnd = set_window(-7, 0, 1600, 900)
+    hwnd = get_window()
     time.sleep(1)
+    set_window(hwnd)
 
     # ファイルパスの設定
     FOLDER_NAME = "origin"
@@ -104,12 +108,12 @@ def run_TC(path='AAA', delay=80.0):
         time.sleep(1)
 
     # スクリーンショット
+    # こっち側の内容が重すぎ
     pre_text = 'Results_Histogram_png'
     delay_text = str(delay).replace(".", "_")
-    save_time_text =  datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
-    screenshot_name = f"{pre_text}_{delay_text}ps_{save_time_text}.png"
+    saved_time_text =  datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
+    screenshot_name = f"{pre_text}_{delay_text}ps_{saved_time_text}.png"
     screenshot_path = os.path.join(path, screenshot_name)
-
     take_screenshot(hwnd, screenshot_path)
     tqdm.write(f'Saved {screenshot_name}.\n')
 
