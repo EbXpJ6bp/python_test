@@ -31,5 +31,5 @@ if __name__ == "__main__":
         _extract.hom_interference_experiment_result(folder_path, comma_folder_path)
 
         # 処理が終わったファイルの名前を変更
-        new_path = os.path.join(current_dir, f"Done_{folder}")
-        os.rename(folder_path, new_path)
+        new_folder_path = os.path.join(current_dir, f"Done_{folder}")
+        os.rename(folder_path, new_folder_path)

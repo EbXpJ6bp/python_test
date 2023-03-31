@@ -39,6 +39,7 @@ def get_window():
     return TC_win
 
 def set_window(window):
+    #workground: https://stackoverflow.com/questions/51694887/win32gui-movewindow-not-aligned-with-left-edge-of-screen
     X, Y, WIDTH, HEIGH = -7, 0, 1600, 900
     win32gui.SetForegroundWindow(window)
     win32gui.MoveWindow(window, X, Y, WIDTH, HEIGH, True)
@@ -77,7 +78,7 @@ def take_screenshot(window, file_path):
 
 def run_TC(path='AAA', delay=80.0):
     # 進捗表示
-    tqdm.write(f'Preparing for {delay}[ps]...')
+    tqdm.write(f'TIA: Preparing...')
 
     # Time Controller.exe の表示設定
     hwnd = get_window()
@@ -98,7 +99,7 @@ def run_TC(path='AAA', delay=80.0):
     acquisition_time = int(get_acquisition_time(hwnd))
 
     # 実行
-    tqdm.write(f'Running for {delay}[ps]...')
+    tqdm.write(f'TIA: Running...')
     run_acquisition(hwnd)
     margin_time = 5
     pbar_run = tqdm(range(acquisition_time+margin_time), leave=False, position=0)
@@ -114,7 +115,7 @@ def run_TC(path='AAA', delay=80.0):
     screenshot_name = f"{pre_text}_{delay_text}ps_{saved_time_text}.png"
     screenshot_path = os.path.join(path, screenshot_name)
     take_screenshot(hwnd, screenshot_path)
-    tqdm.write(f'Saved {screenshot_name}.\n')
+    tqdm.write(f'TIA: Saved {screenshot_name}.\n')
 
 
 if __name__ == "__main__":
