@@ -23,11 +23,11 @@ if __name__ == "__main__":
     for folder in tqdm(folders, desc='Progress in parse', position=1):
         # 処理に使うパスを管理
         folder_path = os.path.join(current_dir, folder)
-        origin_folder_path = os.path.join(folder_path, "origin")
+        raw_folder_path = os.path.join(folder_path, "raw")
         comma_folder_path = os.path.join(folder_path, "comma")
 
         # 変換と、抽出を実行
-        _convert.semicolon_to_comma(origin_folder_path, comma_folder_path)
+        _convert.semicolon_to_comma(raw_folder_path, comma_folder_path)
         _extract.hom_interference_experiment_result(folder_path, comma_folder_path)
 
         # 処理が終わったファイルの名前を変更

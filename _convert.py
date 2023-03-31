@@ -27,7 +27,7 @@ def semicolon_to_comma(folder_path_to_ref, folder_path_to_save):
 
 if __name__ == "__main__":
     current_dir = os.getcwd()
-    origin_folder_path = os.path.join(current_dir, "original")
+    raw_folder_path = os.path.join(current_dir, "raw")
     comma_folder_path = os.path.join(current_dir, "comma")
 
-    semicolon_to_comma(origin_folder_path, comma_folder_path)
+    semicolon_to_comma(raw_folder_path, comma_folder_path)

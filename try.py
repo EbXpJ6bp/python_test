@@ -7,7 +7,6 @@ import _auto
 import time
 
 
-
 def read_stream(in_file, out_file):
     for line in in_file:
         tqdm.write(line.strip(), file=out_file)
@@ -55,7 +54,8 @@ def hom_interference_experiment():
                     tqdm.write(f"ODL: Set to {odl_time}[ps]")
                     break
                 elif response_m == "NG":
-                    tqdm.write(f'{time.time()}: Error response received: {response}, TDL tried to set {odl_time}[ps]')
+                    tqdm.write(
+                        f'{time.time()}: Error response received: {response}, TDL tried to set {odl_time}[ps]')
                     ser.close()
                     exit()
             except KeyboardInterrupt:
@@ -66,11 +66,8 @@ def hom_interference_experiment():
         # Time Controllerの制御
         _auto.run_TC(dir_path, odl_time)
 
-
     # シリアルポートを閉じる
     ser.close()
-
-
 
     experiment_end_time = datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
 
@@ -78,7 +75,6 @@ def hom_interference_experiment():
     print("=========")
     print("おわったあ！！")
     print(f"終了時刻: {experiment_end_time}")
-
 
 
 if __name__ == "__main__":
