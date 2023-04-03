@@ -5,6 +5,7 @@ import time
 from tqdm import tqdm
 from datetime import datetime
 import os
+from PIL import Image
 
 
 # このプログラムはウィンドウの設定、パスの更新、ファイル名の更新、Histogramの実行、スクリーンショットのみを力技で自動化します。
@@ -84,6 +85,10 @@ def take_screenshot(window, file_path):
     prtsc_range = window_size
     pyautogui.screenshot(file_path, region=prtsc_range)
 
+    # screenshot = pyautogui.screenshot(region=prtsc_range)
+    # image = Image.frombytes('RGB', screenshot.size, screenshot.tobytes())
+    # image.save(file_path, 'JPEG', quality=70)
+
 
 def run_TC(path='AAA', delay=80.0):
     # 進捗表示
@@ -117,7 +122,7 @@ def run_TC(path='AAA', delay=80.0):
         pbar_run.set_description(f"Acquisition Progress {i}s")
         time.sleep(1)
 
-    # スクリーンショット
+    # スクリーンショットを取得
     # こっち側の内容が重すぎ
     pre_text = 'Results_Histogram_png'
     delay_text = str(delay).replace(".", "_")
@@ -125,7 +130,6 @@ def run_TC(path='AAA', delay=80.0):
     screenshot_name = f"{pre_text}_{delay_text}ps_{saved_time_text}.png"
     screenshot_path = os.path.join(path, screenshot_name)
     take_screenshot(hwnd, screenshot_path)
-    tqdm.write(f'TIA: Saved {screenshot_name}.\n')
 
 
 if __name__ == "__main__":
