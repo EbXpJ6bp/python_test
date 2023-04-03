@@ -21,7 +21,7 @@ def hom_interference_experiment():
     ser = serial.Serial(COM, BIT_RATE)
 
     # ODLの時間軸を作成
-    odl_times = [x / 10 for x in range(800, 810)]
+    odl_times = [x / 10 for x in range(810, 820)]
 
     # 実行開始時間
     experiment_start_time = datetime.now().strftime('%Y-%m-%dT%H_%M_%S')
@@ -64,7 +64,7 @@ def hom_interference_experiment():
                 exit()
 
         # Time Controllerの制御
-        _auto.run_TC(dir_path, odl_time)
+        _auto.main(dir_path, odl_time)
 
     # シリアルポートを閉じる
     ser.close()
@@ -74,6 +74,7 @@ def hom_interference_experiment():
     time.sleep(1)
     print("=========")
     print("おわったあ！！")
+    print(f"開始時刻: {experiment_start_time}")
     print(f"終了時刻: {experiment_end_time}")
 
 
